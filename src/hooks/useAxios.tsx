@@ -27,6 +27,11 @@ function useAxios<T>(url: string): State<T> {
         setState({ data: response.data, error: null, loading: false });
       })
       .catch((error) => {
+        if (error.name === "CanceledError") {
+          console.log("Fetch request was aborted:", error);
+          return;
+        }
+
         setState({ data: [], error: error.message, loading: false });
       });
 
